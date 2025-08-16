@@ -1,0 +1,3 @@
+﻿User-agent: *
+Allow: /
+Sitemap: https://sysgit9.github.io/ghosthood-site/sitemap.xml
