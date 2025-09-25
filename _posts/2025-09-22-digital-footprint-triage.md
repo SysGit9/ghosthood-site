@@ -1,7 +1,8 @@
 ---
-title: Digital Footprint Triage: A 90-Minute Cleanup That Pays Off All Year
-excerpt: Cut the attack surface first. Depth can come later. Here’s the order of operations.
+title: "Digital Footprint Triage: A 90-Minute Cleanup That Pays Off All Year"
+excerpt: "Cut the attack surface first. Depth can come later. Here’s the order of operations."
 ---
+
 
 You don’t need a week-long retreat in the woods to get safer. Give me 90 minutes and we’ll pull your footprint out of the red.
 
