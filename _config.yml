@@ -1,0 +1,21 @@
+title: Ghosthood
+description: Privacy tools, playbooks, and clear-eyed guides. Join nothing. Become no one.
+# If you know your pages URL, set it here, or leave commented out to avoid broken links.
+# url: https://<your-username>.github.io/ghosthood-site
+theme: null
+markdown: kramdown
+permalink: /:categories/:title/
+plugins:
+  - jekyll-feed
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+
+# Affiliate placeholders (safe to leave as-is)
+proton_affiliate: "#"
+mullvad_affiliate: "#"
+nord_affiliate: "#"
+express_affiliate: "#"

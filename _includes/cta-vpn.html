@@ -1,0 +1,10 @@
+{% assign vendor = include.vendor | downcase %}
+{% if vendor == "proton" %}
+  <a class="btn" href="{{ site.proton_affiliate | default: '#' }}">Get ProtonVPN</a>
+{% elsif vendor == "mullvad" %}
+  <a class="btn" href="{{ site.mullvad_affiliate | default: '#' }}">Try Mullvad</a>
+{% elsif vendor == "nord" %}
+  <a class="btn" href="{{ site.nord_affiliate | default: '#' }}">Check NordVPN Deals</a>
+{% elsif vendor == "express" %}
+  <a class="btn" href="{{ site.express_affiliate | default: '#' }}">Get ExpressVPN</a>
+{% endif %}
