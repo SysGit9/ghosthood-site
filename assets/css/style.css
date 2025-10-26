@@ -15,3 +15,11 @@ th,td{border:1px solid var(--line);padding:.6rem;text-align:left}
 code,pre{background:#111;border:1px solid var(--line);padding:.2rem .4rem;border-radius:4px}
 .btn{display:inline-block;padding:.6rem .9rem;background:var(--brand);color:white;border-radius:6px;font-weight:700}
 .btn:hover{opacity:.9}
+/* --- Ghosthood handwriting auto-apply (do not remove) --- */
+.header .brand,
+h1.title,
+blockquote.font-ghosthood {
+  font-family: 'Ghosthood', Inter, system-ui, sans-serif;
+  letter-spacing: 0.3px;
+}
+/* --- end handwriting hook --- */
