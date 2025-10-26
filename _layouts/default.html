@@ -1,1 +1,19 @@
-<!doctype html><html><head><meta charset='utf-8'><title>{{ page.title | default: site.title }}</title></head><body><main>{{ content }}</main></body></html>
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | default: site.title }}</title>{% include head.html %}</head>
+<body>
+<header class="header"><div class="inner container">
+  <a class="brand" href="{{ (site.baseurl | append: "/") | replace: "//","/" | relative_url }}">GHOSTHOOD</a>
+  <nav class="nav">
+    <a href="{{ "/about/"  | relative_url }}">About</a>
+    <a href="{{ "/submit/" | relative_url }}">Submit</a>
+    <a href="{{ "/vault/"  | relative_url }}">The Vault</a>
+  </nav>
+</div></header>
+<main class="container">{{ content }}</main>
+<footer class="footer container">© {{ "now" | date: "%Y" }} Ghosthood • The Dossier Vault</footer>
+<div class="background-definitions">
+  <span data-term="Ghosthood">The state of being unseen yet present.</span>
+  <span data-term="Vault">Where the truth is buried, until unearthed.</span>
+  <span data-term="Dossier">A record of rebellion made permanent.</span>
+</div>
+</body></html>

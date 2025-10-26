@@ -1,6 +1,9 @@
----
+﻿---
 layout: default
 ---
-<h1>{{ page.title }}</h1>
-<p><em>{{ page.author }}</em></p>
-{{ content }}
+<article class="card dossier">
+  <h1 class="title">{{ page.title }}</h1>
+  <div class="meta">By {{ page.author }} • {{ page.date | date: "%Y-%m-%d" }}</div>
+  {% if page.summary %}<p class="summary">{{ page.summary }}</p>{% endif %}
+  <div class="body">{{ content }}</div>
+</article>

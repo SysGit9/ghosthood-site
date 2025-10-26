@@ -1,8 +1,9 @@
----
+﻿---
 layout: default
 title: About
 permalink: /about/
 ---
-
-# About Ghosthood
-Ghosthood is a privacy toolkit and a field manual for the Anthropocene. We test, explain, and publish what works—without the hype.
+<div class="card">
+  <h1>About</h1>
+  <p>Ghosthood is a publishing engine for privacy, autonomy, and human dignity. We call our accepted works <strong>Dossiers</strong>. The body of accepted work is <strong>The Vault</strong>.</p>
+</div>

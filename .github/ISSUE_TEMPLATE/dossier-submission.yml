@@ -1,0 +1,37 @@
+﻿name: Dossier submission
+description: Propose a draft to enter The Vault
+title: "[SUBMISSION] <Your title here>"
+labels: ["submission"]
+body:
+  - type: input
+    id: title
+    attributes: { label: Dossier Title, placeholder: e.g., The Quiet Catastrophe of Consent }
+    validations: { required: true }
+  - type: input
+    id: author
+    attributes: { label: Author, placeholder: e.g., Silas Goudeaux }
+    validations: { required: true }
+  - type: textarea
+    id: summary
+    attributes: { label: Summary, placeholder: 1–3 sentence abstract }
+    validations: { required: true }
+  - type: textarea
+    id: keywords
+    attributes: { label: Keywords (comma-separated), placeholder: privacy, consent, surveillance }
+  - type: textarea
+    id: content
+    attributes:
+      label: Draft Content (Markdown)
+      description: Paste your draft in Markdown. A branch + PR will be created and routed to review.
+      placeholder: |
+        ---
+        title: The Quiet Catastrophe of Consent
+        author: Silas Goudeaux
+        date: 2025-10-24
+        summary: ...
+        keywords: privacy, consent
+        ---
+        
+        # Opening
+        Your content here...
+    validations: { required: true }

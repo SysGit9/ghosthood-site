@@ -1,20 +1,23 @@
-:root { --bg:#0b0b0b; --ink:#e8e8e8; --muted:#9aa0a6; --line:#1f1f1f; --brand:#3b82f6; }
+﻿:root { --bg:#0b0c0f; --card:#121419; --line:#1c1f27; --fg:#e6e8ee; --muted:#a3a8b4; --accent:#7dd3fc; }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,Helvetica,Arial}
-a{color:var(--brand);text-decoration:none}
-a:hover{text-decoration:underline}
-.container{max-width:900px;margin:2rem auto;padding:0 1rem}
-.site-header,.site-footer{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:.8rem 1rem;background:#0f0f10}
-.site-header{display:flex;align-items:center;gap:1rem;justify-content:space-between}
-.brand{font-weight:700}
-nav a{margin-right:1rem;color:var(--muted)}
-h1,h2,h3{line-height:1.2}
-.post .meta{color:var(--muted);margin-top:-.5rem;margin-bottom:1.5rem}
-table{width:100%;border-collapse:collapse;margin:1.25rem 0}
-th,td{border:1px solid var(--line);padding:.6rem;text-align:left}
-code,pre{background:#111;border:1px solid var(--line);padding:.2rem .4rem;border-radius:4px}
-.btn{display:inline-block;padding:.6rem .9rem;background:var(--brand);color:white;border-radius:6px;font-weight:700}
-.btn:hover{opacity:.9}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+.container{max-width:1000px;margin:0 auto;padding:24px 16px}
+.header{border-bottom:1px solid var(--line);backdrop-filter:blur(4px);position:sticky;top:0;z-index:10}
+.header .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.brand{font-weight:800;letter-spacing:1.5px}
+.nav a{margin-left:14px;color:var(--fg);opacity:.9}.nav a:hover{opacity:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+ul.vault{list-style:none;padding:0;margin:0}
+ul.vault li{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.meta{color:var(--muted);font-size:.9rem}
+h1.title{font-size:2rem;margin:.2rem 0 .6rem}
+blockquote{border-left:3px solid var(--line);padding:8px 12px;color:#c9ced9;margin:12px 0}
+.font-ghosthood{font-family:'Ghosthood', Inter, system-ui, sans-serif}
+.background-definitions span{position:fixed;opacity:.05;font-size:4rem;pointer-events:none}
+[data-term="Ghosthood"]{top:10%;left:6%}[data-term="Vault"]{bottom:14%;right:10%}[data-term="Dossier"]{top:60%;left:45%}
+
 /* --- Ghosthood handwriting auto-apply (do not remove) --- */
 .header .brand,
 h1.title,

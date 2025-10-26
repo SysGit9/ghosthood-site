@@ -1,0 +1,50 @@
+﻿name: Review gate & publish
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
+    paths: [ "_review/**.md" ]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+permissions: { contents: write, pull-requests: write }
+jobs:
+  check-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: approvals
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request || (await github.pulls.get({
+              owner: context.repo.owner, repo: context.repo.repo,
+              pull_number: context.payload.pull_request?.number || context.payload.review.pull_request_url.split('/').pop()
+            })).data;
+            const reviews = await github.pulls.listReviews({ owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number });
+            const approved = new Set();
+            for (const r of reviews.data) { if (r.state === "APPROVED") approved.add(r.user.login); if (r.state === "CHANGES_REQUESTED") approved.delete(r.user.login); }
+            core.setOutput("count", String(approved.size));
+      - name: Determine required approvals
+        id: quorum
+        run: echo "q=2" >> $GITHUB_OUTPUT
+      - name: Find changed review file
+        if: ${{ steps.approvals.outputs.count >= steps.quorum.outputs.q }}
+        run: |
+          FILE=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep '^_review/.*\.md$' | head -n1)
+          echo "FILE=$FILE" >> $GITHUB_ENV
+      - name: Publish (move to _dossiers and merge)
+        if: ${{ steps.approvals.outputs.count >= steps.quorum.outputs.q }}
+        run: |
+          DEST=$(echo "$FILE" | sed 's#^_review/#_dossiers/#')
+          mkdir -p "$(dirname "$DEST")"
+          git mv "$FILE" "$DEST"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publish dossier: $(basename "$DEST")"
+          git push
+      - name: Auto-merge PR
+        if: ${{ steps.approvals.outputs.count >= steps.quorum.outputs.q }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.pulls.merge({ owner: context.repo.owner, repo: context.repo.repo, pull_number: context.payload.pull_request.number, merge_method: "squash" });

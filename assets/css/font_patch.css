@@ -1,9 +1,6 @@
-﻿/* Loads your handwriting if present; falls back to Inter */
-@font-face {
+﻿@font-face {
   font-family: 'Ghosthood';
   src: url('{{ "/assets/fonts/Ghosthood.ttf" | relative_url }}') format('truetype');
   font-display: swap;
 }
-
-/* Utility class + used by theme hooks */
 .font-ghosthood { font-family: 'Ghosthood', Inter, system-ui, sans-serif; }

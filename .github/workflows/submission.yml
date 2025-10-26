@@ -1,0 +1,73 @@
+﻿name: Create review file from submission
+on: { issues: { types: [opened, edited] } }
+permissions: { contents: write, issues: read, pull-requests: write }
+jobs:
+  build-draft:
+    if: contains(github.event.issue.labels.*.name, "submission")
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: x
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || "";
+            function grab(id){
+              const re = new RegExp("### " + id + "[\\\\s\\\\S]*?\\n\\n([\\\\s\\\\S]*?)\\n\\n###","m");
+              const m = body.match(re);
+              if(m){ return m[1].trim(); }
+              const re2 = new RegExp("### " + id + "[\\\\s\\\\S]*");
+              const m2 = body.match(re2);
+              if(m2){ return m2[0].split("\\n").slice(2).join("\\n").trim(); }
+              return "";
+            }
+            const title = grab("Dossier Title");
+            const author = grab("Author");
+            const summary = grab("Summary");
+            const keywords = grab("Keywords \\(comma-separated\\)");
+            const content = grab("Draft Content \\(Markdown\\)");
+            core.setOutput("title", title);
+            core.setOutput("author", author);
+            core.setOutput("summary", summary);
+            core.setOutput("keywords", keywords);
+            core.setOutput("content", content);
+      - name: Create branch
+        run: |
+          BRANCH="submission/${{ steps.x.outputs.title || 'untitled' }}"
+          BRANCH_SAFE=$(echo "$BRANCH" | tr ' ' '-' | tr -cd '[:alnum:]-_/.' )
+          echo "BRANCH_SAFE=$BRANCH_SAFE" >> $GITHUB_ENV
+          git checkout -b "$BRANCH_SAFE"
+      - name: Create review file
+        run: |
+          FILE="_review/${{ steps.x.outputs.title || 'untitled' }}.md"
+          FILE_SAFE=$(echo "$FILE" | tr ' ' '-' | tr -cd '[:alnum:]-_/.' )
+          mkdir -p "$(dirname "$FILE_SAFE")"
+          cat > "$FILE_SAFE" <<'MD'
+          ---
+          title: ${{ steps.x.outputs.title }}
+          author: ${{ steps.x.outputs.author }}
+          date: ${{ github.event.issue.created_at }}
+          summary: ${{ steps.x.outputs.summary }}
+          keywords: ${{ steps.x.outputs.keywords }}
+          status: review
+          ---
+          
+          ${{ steps.x.outputs.content }}
+          MD
+          echo "FILE_SAFE=$FILE_SAFE" >> $GITHUB_ENV
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FILE_SAFE"
+          git commit -m "Add review draft: ${{ steps.x.outputs.title }}"
+      - name: Push
+        run: git push --set-upstream origin "$BRANCH_SAFE"
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Review: ${{ steps.x.outputs.title }}"
+          body: "Auto-generated from a submission issue."
+          branch: "${{ env.BRANCH_SAFE }}"
+          base: "${{ github.event.repository.default_branch }}"
+          labels: review
